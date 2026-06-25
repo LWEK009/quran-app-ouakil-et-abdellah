@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import '../services/storage_service.dart';
 
 class MushafScreen extends StatefulWidget {
@@ -28,9 +28,9 @@ class _MushafScreenState extends State<MushafScreen> {
     super.dispose();
   }
 
-  String _getPageUrl(int page) {
+  String _getPagePath(int page) {
     String formattedPage = page.toString().padLeft(3, '0');
-    return 'https://raw.githubusercontent.com/GovarJabbar/Quran-PNG/master/$formattedPage.png';
+    return 'assets/pages/$formattedPage.png';
   }
 
   @override
@@ -66,28 +66,28 @@ class _MushafScreenState extends State<MushafScreen> {
           return InteractiveViewer(
             minScale: 1.0,
             maxScale: 4.0,
-            child: Center(
-              child: CachedNetworkImage(
-                imageUrl: _getPageUrl(index + 1),
-                placeholder: (context, url) => const Center(
-                  child: CircularProgressIndicator(color: Color(0xFFD4AF37)),
+            child: Container(
+              color: const Color(0xFFF4EAD5), // Beige paper background
+              child: Center(
+                child: Image.asset(
+                  _getPagePath(index + 1),
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.error, color: Colors.red, size: 50),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'فشل تحميل صفحة المصحف.',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      Text(
+                        'تأكد من تنزيل الصفحات.',
+                        style: TextStyle(color: Colors.black54),
+                      ),
+                    ],
+                  ),
                 ),
-                errorWidget: (context, url, error) => Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.error, color: Colors.red, size: 50),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'فشل تحميل صفحة المصحف.',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    Text(
-                      'تحقق من اتصالك بالإنترنت.',
-                      style: TextStyle(color: Colors.white.withOpacity(0.6)),
-                    ),
-                  ],
-                ),
-                fit: BoxFit.contain,
               ),
             ),
           );

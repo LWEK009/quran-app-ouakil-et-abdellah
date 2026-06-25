@@ -52,6 +52,8 @@ flutter_launcher_icons:
   ios: true
   image_path: "assets/icon_padded.png"
   remove_alpha_ios: true
+  adaptive_icon_background: "#0C3E26"
+  adaptive_icon_foreground: "assets/icon_padded.png"
 
 flutter_native_splash:
   color: "#0C3E26"

@@ -39,6 +39,31 @@ class _HomeScreenState extends State<HomeScreen> {
             expandedHeight: 200,
             floating: false,
             pinned: true,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.info_outline, color: Colors.white),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('عن التطبيق', style: GoogleFonts.amiri(fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                      content: Text(
+                        'هذا التطبيق صدقة جارية لجميع المسلمين.\n\nتم إنشاؤه بواسطة:\nhazem abdelouakil',
+                        style: GoogleFonts.amiri(fontSize: 20),
+                        textAlign: TextAlign.center,
+                        textDirection: TextDirection.rtl,
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('إغلاق', style: GoogleFonts.amiri(fontSize: 18, color: const Color(0xFF0C3E26))),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'القرآن الكريم',

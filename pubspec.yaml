@@ -73,7 +73,6 @@ flutter:
 
   assets:
     - assets/icon.png
-    - assets/pages/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

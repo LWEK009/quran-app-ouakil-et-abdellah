@@ -28,9 +28,9 @@ class _MushafScreenState extends State<MushafScreen> {
     super.dispose();
   }
 
-  String _getPagePath(int page) {
+  String _getPageUrl(int page) {
     String formattedPage = page.toString().padLeft(3, '0');
-    return 'assets/pages/$formattedPage.png';
+    return 'https://raw.githubusercontent.com/GovarJabbar/Quran-PNG/master/$formattedPage.png';
   }
 
   @override
@@ -69,34 +69,27 @@ class _MushafScreenState extends State<MushafScreen> {
             child: Container(
               color: const Color(0xFFF4EAD5), // Beige paper background
               child: Center(
-                child: Image.asset(
-                  _getPagePath(index + 1),
+                child: CachedNetworkImage(
+                  imageUrl: _getPageUrl(index + 1),
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(color: Color(0xFFD4AF37)),
+                  ),
+                  errorWidget: (context, url, error) => Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.error, color: Colors.red, size: 50),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'فشل تحميل صفحة المصحف.',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      Text(
+                        'تحقق من اتصالك بالإنترنت.',
+                        style: TextStyle(color: Colors.black54),
+                      ),
+                    ],
+                  ),
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) {
-                    String formattedPage = (index + 1).toString().padLeft(3, '0');
-                    return CachedNetworkImage(
-                      imageUrl: 'https://raw.githubusercontent.com/GovarJabbar/Quran-PNG/master/$formattedPage.png',
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(color: Color(0xFFD4AF37)),
-                      ),
-                      errorWidget: (context, url, err) => Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.error, color: Colors.red, size: 50),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'فشل تحميل صفحة المصحف.',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          Text(
-                            'تأكد من تنزيل الصفحات أو تحقق من الإنترنت.',
-                            style: TextStyle(color: Colors.black54),
-                          ),
-                        ],
-                      ),
-                      fit: BoxFit.contain,
-                    );
-                  },
                 ),
               ),
             ),

@@ -16,15 +16,16 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 1000),
       vsync: this,
-    );
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    );
+    )..repeat(reverse: true);
     
-    _controller.forward();
+    _animation = Tween<double>(begin: 0.8, end: 1.2).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
     
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
@@ -49,13 +50,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       body: Center(
         child: ScaleTransition(
           scale: _animation,
-          child: FadeTransition(
-            opacity: _animation,
-            child: Image.asset(
-              'assets/icon_shaved.png',
-              width: 250,
-              height: 250,
-            ),
+          child: Image.asset(
+            'assets/icon_shaved.png',
+            width: 250,
+            height: 250,
           ),
         ),
       ),

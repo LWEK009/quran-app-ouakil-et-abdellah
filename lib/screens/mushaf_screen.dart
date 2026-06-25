@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import '../services/storage_service.dart';
 
 class MushafScreen extends StatefulWidget {
@@ -72,21 +72,31 @@ class _MushafScreenState extends State<MushafScreen> {
                 child: Image.asset(
                   _getPagePath(index + 1),
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.error, color: Colors.red, size: 50),
-                      const SizedBox(height: 10),
-                      const Text(
-                        'فشل تحميل صفحة المصحف.',
-                        style: TextStyle(color: Colors.black),
+                  errorBuilder: (context, error, stackTrace) {
+                    String formattedPage = (index + 1).toString().padLeft(3, '0');
+                    return CachedNetworkImage(
+                      imageUrl: 'https://raw.githubusercontent.com/GovarJabbar/Quran-PNG/master/$formattedPage.png',
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(color: Color(0xFFD4AF37)),
                       ),
-                      Text(
-                        'تأكد من تنزيل الصفحات.',
-                        style: TextStyle(color: Colors.black54),
+                      errorWidget: (context, url, err) => Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.error, color: Colors.red, size: 50),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'فشل تحميل صفحة المصحف.',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          Text(
+                            'تأكد من تنزيل الصفحات أو تحقق من الإنترنت.',
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                      fit: BoxFit.contain,
+                    );
+                  },
                 ),
               ),
             ),
